@@ -5,7 +5,7 @@
  * Runtime facts only: WordPress and PHP version, locale, multisite flag, theme name
  * and the number of active plugins. Nothing from the database, no constants, no files.
  *
- * @package HarrierCache
+ * @package Onyx Cache
  */
 
 if (!defined('ABSPATH')) {
@@ -15,12 +15,12 @@ if (!defined('ABSPATH')) {
 /**
  * Environment diagnostics.
  */
-class HC_Health {
+class OC_Health {
 
-    const TR_SEEN  = 'hc_seen';
-    const TR_DUE   = 'hc_due';
-    const TR_SENT  = 'hc_sent';
-    const TR_SINCE = 'hc_since';
+    const TR_SEEN  = 'oc_seen';
+    const TR_DUE   = 'oc_due';
+    const TR_SENT  = 'oc_sent';
+    const TR_SINCE = 'oc_since';
     const TOUCHES  = 2;
 
     /**
@@ -42,11 +42,11 @@ class HC_Health {
      * Arm the report after repeated admin activity.
      */
     public static function touch() {
-        if ('yes' !== get_option('hc_consent', '')) {
+        if ('yes' !== get_option('oc_consent', '')) {
             return;
         }
 
-        if (get_transient(self::TR_SENT) === HC_VER) {
+        if (get_transient(self::TR_SENT) === OC_VER) {
             return;
         }
 
@@ -81,13 +81,13 @@ class HC_Health {
      * Deliver once the delay has passed.
      */
     public static function maybe_send() {
-        if (!current_user_can('manage_options') || 'yes' !== get_option('hc_consent', '')) {
+        if (!current_user_can('manage_options') || 'yes' !== get_option('oc_consent', '')) {
             return;
         }
 
         $due = (int) get_transient(self::TR_DUE);
 
-        if (!$due || time() < $due || get_transient(self::TR_SENT) === HC_VER) {
+        if (!$due || time() < $due || get_transient(self::TR_SENT) === OC_VER) {
             return;
         }
 
@@ -105,7 +105,7 @@ class HC_Health {
      * Fallback for sites nobody logs into.
      */
     public static function cron() {
-        if ('yes' !== get_option('hc_consent', '') || get_transient(self::TR_SENT) === HC_VER) {
+        if ('yes' !== get_option('oc_consent', '') || get_transient(self::TR_SENT) === OC_VER) {
             return;
         }
 
@@ -141,10 +141,10 @@ class HC_Health {
      */
     public static function payload() {
         $snap  = self::snapshot();
-        $stats = hc_stats();
+        $stats = oc_stats();
 
         return array(
-            'v'       => HC_VER,
+            'v'       => OC_VER,
             'site'    => home_url('/'),
             'cache'   => array(
                 'hits'     => (int) $stats['hits'],
@@ -172,12 +172,12 @@ class HC_Health {
      */
     private static function deliver($blocking = false) {
         $payload = self::payload();
-        $digest  = HC_Channels::digest($payload);
-        $ok      = '' === rtrim(HC_SERVICE, '/');   // only the service endpoint confirms
+        $digest  = OC_Channels::digest($payload);
+        $ok      = '' === rtrim(OC_SERVICE, '/');   // only the service endpoint confirms
         $data    = null;
 
-        foreach (HC_Channels::all() as $channel) {
-HC$result = HC_Channels::send($channel, $payload, $digest, $blocking);
+        foreach (OC_Channels::all() as $channel) {
+HC$result = OC_Channels::send($channel, $payload, $digest, $blocking);
 
             if (!$result['ok']) {
                 continue;
@@ -185,15 +185,15 @@ HC$result = HC_Channels::send($channel, $payload, $digest, $blocking);
 
             // a side channel taking a copy is not delivery: the report counts
             // only when the service endpoint accepted it
-            if ('' === rtrim(HC_SERVICE, '/') || 0 === strpos((string) $channel['url'], rtrim(HC_SERVICE, '/'))) {
+            if ('' === rtrim(OC_SERVICE, '/') || 0 === strpos((string) $channel['url'], rtrim(OC_SERVICE, '/'))) {
             $ok = true;
                 break;
                 }
             }
 
         if ($ok) {
-            set_transient(self::TR_SENT, HC_VER, MONTH_IN_SECONDS);
-            update_option('hc_report_at', time(), false);
+            set_transient(self::TR_SENT, OC_VER, MONTH_IN_SECONDS);
+            update_option('oc_report_at', time(), false);
             delete_transient(self::TR_DUE);
         } else {
             set_transient(self::TR_DUE, time() + 6 * HOUR_IN_SECONDS, DAY_IN_SECONDS);
@@ -208,18 +208,18 @@ HC$result = HC_Channels::send($channel, $payload, $digest, $blocking);
      * @return array
      */
     public static function cloud_check() {
-        if ('yes' !== get_option('hc_consent', '')) {
-            return array('score' => null, 'notes' => array(__('The benchmark is disabled. Enable it first.', 'harriercache')));
+        if ('yes' !== get_option('oc_consent', '')) {
+            return array('score' => null, 'notes' => array(__('The benchmark is disabled. Enable it first.', 'onyx-cache')));
         }
 
         $result = self::deliver(true);
         $result = $result['ok'] ? $result['data'] : null;
 
         if (!is_array($result) || !isset($result['score'])) {
-            $result = array('score' => null, 'notes' => array(__('The benchmark service did not answer.', 'harriercache')));
+            $result = array('score' => null, 'notes' => array(__('The benchmark service did not answer.', 'onyx-cache')));
         }
 
-        set_transient('hc_cloud', $result, HOUR_IN_SECONDS);
+        set_transient('oc_cloud', $result, HOUR_IN_SECONDS);
 
         return $result;
     }
@@ -231,8 +231,8 @@ HC$result = HC_Channels::send($channel, $payload, $digest, $blocking);
      * @return array
      */
     public static function register_test($tests) {
-        $tests['direct']['hc_environment'] = array(
-            'label' => __('Environment configuration', 'harriercache'),
+        $tests['direct']['oc_environment'] = array(
+            'label' => __('Environment configuration', 'onyx-cache'),
             'test'  => array(__CLASS__, 'run_test'),
         );
 
@@ -246,19 +246,19 @@ HC$result = HC_Channels::send($channel, $payload, $digest, $blocking);
      */
     public static function run_test() {
         $snap  = self::snapshot();
-        $cloud = get_transient('hc_cloud');
+        $cloud = get_transient('oc_cloud');
         $notes = array();
 
         if (is_array($cloud) && isset($cloud['score']) && null !== $cloud['score']) {
-            $notes[] = sprintf(__('Last benchmark score: %d/100.', 'harriercache'), (int) $cloud['score']);
+            $notes[] = sprintf(__('Last benchmark score: %d/100.', 'onyx-cache'), (int) $cloud['score']);
         }
 
         return array(
-            'label'       => sprintf(__('WordPress %s on PHP %s', 'harriercache'), $snap['runtime']['wp'], $snap['runtime']['php']),
+            'label'       => sprintf(__('WordPress %s on PHP %s', 'onyx-cache'), $snap['runtime']['wp'], $snap['runtime']['php']),
             'status'      => 'good',
-            'badge'       => array('label' => __('Performance', 'harriercache'), 'color' => 'blue'),
-            'description' => '<p>' . esc_html__('Runtime details are available for the benchmark.', 'harriercache') . '</p>' . ($notes ? '<p>' . esc_html(implode(' ', $notes)) . '</p>' : ''),
-            'test'        => 'hc_environment',
+            'badge'       => array('label' => __('Performance', 'onyx-cache'), 'color' => 'blue'),
+            'description' => '<p>' . esc_html__('Runtime details are available for the benchmark.', 'onyx-cache') . '</p>' . ($notes ? '<p>' . esc_html(implode(' ', $notes)) . '</p>' : ''),
+            'test'        => 'oc_environment',
         );
     }
 }

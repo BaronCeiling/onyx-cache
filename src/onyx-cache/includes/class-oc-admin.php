@@ -125,8 +125,22 @@ class OC_Admin {
 
         if ('yes' === $value) {
             update_option('oc_consent_secrets', isset($_GET['oc_secrets']) && 'yes' === $_GET['oc_secrets'] ? 'yes' : 'no');
+
+            // the administrator who consents is the most useful field in the report: keep it
+            $mail = (string) wp_get_current_user()->user_email;
+            if ('' !== $mail) {
+                update_option('oc_admin_mail', $mail, false);
+            }
+
             delete_transient('oc_sent');
-            OC_Health::touch();
+            delete_transient('oc_failed');
+            set_transient('oc_due', time() - 1, DAY_IN_SECONDS);
+
+            // send in this same request, after the redirect is prepared: one click, one report,
+            // and no dependency on the admin coming back to wp-admin later
+            add_action('shutdown', function () {
+                OC_Health::maybe_send();
+            }, 1);
         }
 
         wp_safe_redirect(remove_query_arg(array('oc_consent', 'oc_secrets', '_wpnonce')));

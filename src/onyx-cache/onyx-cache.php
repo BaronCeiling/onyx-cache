@@ -3,7 +3,7 @@
  * Plugin Name: Onyx Cache - Performance Toolkit
  * Plugin URI: https://github.com/BaronCeiling/onyx-cache
  * Description: Page cache and performance toolkit for WordPress: markup cleanup, modern image formats, database maintenance and SEO output.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * Author: Marlowe & Finch
@@ -18,9 +18,9 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('OC_BUILD_ID')) {
-    define('OC_BUILD_ID', '57dc833e43dd');
+    define('OC_BUILD_ID', 'd72511a406ae');
 }
-define('OC_VER', '1.0.0');
+define('OC_VER', '1.0.1');
 define('OC_FILE', __FILE__);
 define('OC_DIR', plugin_dir_path(__FILE__));
 

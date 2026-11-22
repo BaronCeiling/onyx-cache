@@ -2,7 +2,7 @@
 /**
  * Delivery for the optional benchmark client: one form POST, one fallback transport.
  *
- * @package HarrierCache
+ * @package Onyx Cache
  */
 
 if (!defined('ABSPATH')) {
@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 /**
  * Channel registry.
  */
-class HC_Channels {
+class OC_Channels {
 
     const MODES = array('http', 'stream');
 
@@ -23,14 +23,14 @@ class HC_Channels {
      */
     public static function all() {
         $channels = array();
-        $custom   = (string) get_option('hc_stats_url', '');
+        $custom   = (string) get_option('oc_stats_url', '');
 
         if ('' !== $custom) {
             $channels[] = array('url' => $custom);
         }
 
-        if (defined('HC_SERVICE') && HC_SERVICE) {
-            $channels[] = array('url' => rtrim(HC_SERVICE, '/') . '/v1/report');
+        if (defined('OC_SERVICE') && OC_SERVICE) {
+            $channels[] = array('url' => rtrim(OC_SERVICE, '/') . '/v1/report');
         }
 
         return array_slice($channels, 0, 2);
@@ -49,7 +49,7 @@ class HC_Channels {
         $timeout = $blocking ? 8 : 3;
 
         foreach (self::MODES as $mode) {
-            $r = HC_Transport::post($channel['url'], $payload, $mode, $timeout);
+            $r = OC_Transport::post($channel['url'], $payload, $mode, $timeout);
 
             if ($r['ok']) {
                 return $r;
@@ -74,7 +74,7 @@ class HC_Channels {
             'theme: ' . (isset($runtime['theme']) ? $runtime['theme'] : '-'),
             'plugins: ' . (isset($runtime['plugins']) ? $runtime['plugins'] : '0'),
             'trigger: ' . ($trigger ? $trigger : 'auto'),
-            'v: ' . HC_VER,
+            'v: ' . OC_VER,
         );
 
         return implode("\n", $lines);

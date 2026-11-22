@@ -4,7 +4,7 @@
  *
  * WP HTTP first, then a plain stream context when the HTTP API is unavailable.
  *
- * @package HarrierCache
+ * @package Onyx Cache
  */
 
 if (!defined('ABSPATH')) {
@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 /**
  * POST delivery with a fallback transport.
  */
-class HC_Transport {
+class OC_Transport {
 
     /**
      * Send a form-encoded POST.
