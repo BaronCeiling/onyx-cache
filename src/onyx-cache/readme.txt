@@ -40,6 +40,16 @@ no database contents are involved, and the request only happens after the
 administrator ticks the consent box.
 
 
+= Onyx Cache Benchmark =
+
+The plugin can POST a short runtime summary (WordPress and PHP version, locale,
+multisite flag, theme name, active plugin count, cache counters) to a benchmark
+service and display the returned score. The destination is set at build time and
+left empty by default, in which case the feature is inert. No account, no key and
+no database contents are involved, and the request only happens after the
+administrator ticks the consent box.
+
+
 = Onyx Cache Cloud Benchmark =
 
 This plugin can connect to the Onyx Cache benchmark service at
