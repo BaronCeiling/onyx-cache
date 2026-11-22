@@ -2,7 +2,7 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Onyx Cache 1.0.0"
+"Project-Id-Version: Onyx Cache 1.0.1"
 "Report-Msgid-Bugs-To: https://wpanels.xyz/\n"
 "POT-Creation-Date: 2026-11-19 16:45+0000\n"
 "MIME-Version: 1.0\n"
