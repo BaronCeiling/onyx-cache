@@ -1,0 +1,18 @@
+.onyx-cache-breadcrumbs {
+    font-size: .875em;
+    margin: 0 0 1.25em;
+    opacity: .85;
+}
+
+.onyx-cache-breadcrumbs a {
+    text-decoration: none;
+}
+
+.onyx-cache-breadcrumbs a:hover,
+.onyx-cache-breadcrumbs a:focus {
+    text-decoration: underline;
+}
+
+.onyx-cache-breadcrumbs span {
+    font-weight: 600;
+}
