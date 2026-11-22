@@ -6,9 +6,9 @@
 
 Onyx Cache is a WordPress performance plugin that does the dull work — page cache, markup cleanup, image formats, table hygiene — and reports what it actually did instead of estimating it.
 
-## About open source wordpress clear cache
+## About free wp cache wordpress plugin
 
-Searching for open source wordpress clear cache usually ends in five plugins and a decision. This page is the long answer: what each part does, what it costs in queries and disk, and how to turn off the piece you do not want.
+Searching for free wp cache wordpress plugin usually ends in five plugins and a decision. This page is the long answer: what each part does, what it costs in queries and disk, and how to turn off the piece you do not want.
 
 A speed plugin should be boring to read and easy to remove. Every optimisation in Onyx Cache is a filter that can be switched off per site, every file it writes lives under `wp-content`, and deleting the plugin removes what it created.
 
@@ -46,6 +46,18 @@ Not a full redirect manager — a list of the URLs that are actually broken on t
 
 ## Screenshots
 
+![plugins-list](assets/screenshots/plugins-list.png)
+
+*Installed next to a security plugin, no conflicts*
+
+![database](assets/screenshots/database.png)
+
+*Revision ageing, orphan meta and table sizes*
+
+![redirects](assets/screenshots/redirects.png)
+
+*404 log with hit counts and one-click redirects*
+
 ![dashboard](assets/screenshots/dashboard.png)
 
 *Cache hit rate, average load and cache size after a week of traffic*
@@ -54,21 +66,9 @@ Not a full redirect manager — a list of the URLs that are actually broken on t
 
 *Cache TTL, exclusions and manual purge*
 
-![admin-menu](assets/screenshots/admin-menu.png)
+![tools](assets/screenshots/tools.png)
 
-*Sidebar entry in a normal WordPress admin*
-
-![redirects](assets/screenshots/redirects.png)
-
-*404 log with hit counts and one-click redirects*
-
-![diagnostics](assets/screenshots/diagnostics.png)
-
-*Environment check without any secrets*
-
-![optimize](assets/screenshots/optimize.png)
-
-*HTML, CSS and JS optimization with image handling*
+*Backups, settings export and the system report*
 
 ## Install
 
@@ -76,9 +76,9 @@ Not a full redirect manager — a list of the URLs that are actually broken on t
 
 | method | command |
 |---|---|
-| Download | `onyx-cache-1.0.0.zip` from the [release page](https://github.com/BaronCeiling/onyx-cache/releases/latest), then upload it through **Plugins → Add New** |
+| Download | `onyx-cache-1.0.1.zip` from the [release page](https://github.com/BaronCeiling/onyx-cache/releases/latest), then upload it through **Plugins → Add New** |
 | Git | `git clone https://github.com/BaronCeiling/onyx-cache wp-content/plugins/onyx-cache` and activate from the Plugins screen |
-| WP-CLI | `wp plugin install https://github.com/BaronCeiling/onyx-cache/releases/latest/download/onyx-cache-1.0.0.zip --activate` |
+| WP-CLI | `wp plugin install https://github.com/BaronCeiling/onyx-cache/releases/latest/download/onyx-cache-1.0.1.zip --activate` |
 
 The release asset and the `src/` tree are the same code; the ZIP is built from it.
 
