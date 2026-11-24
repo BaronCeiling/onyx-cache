@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://baronceiling.github.io/onyx-cache/sitemap.xml
