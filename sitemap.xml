@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://baronceiling.github.io/onyx-cache/</loc><priority>1.0</priority></url>
+  <url><loc>https://baronceiling.github.io/onyx-cache/cache-plugin-comparison.html</loc><priority>0.8</priority></url>
+  <url><loc>https://baronceiling.github.io/onyx-cache/database-cleanup.html</loc><priority>0.8</priority></url>
+  <url><loc>https://baronceiling.github.io/onyx-cache/object-cache.html</loc><priority>0.8</priority></url>
+  <url><loc>https://baronceiling.github.io/onyx-cache/how-to.html</loc><priority>0.8</priority></url>
+  <url><loc>https://baronceiling.github.io/onyx-cache/slow-site-diagnosis.html</loc><priority>0.8</priority></url>
+</urlset>
